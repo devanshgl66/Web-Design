@@ -1,0 +1,7 @@
+git init
+git status
+git add .
+git commit -m "versionname"
+git push -u origin master
+git log
+git checkout HEAD~10 /*10 step behind*/ filename
