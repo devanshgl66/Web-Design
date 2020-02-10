@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		function func(){
+			var inp3=document.getElementById('id1').value;
+			var inp4=document.getElementById('id2');
+			inp4.innerHTML='';
+			for(var i=0;i<inp2[inp3].length;i++){
+				var ele=document.createElement('option');
+				ele.innerHTML=inp2[inp3][i];
+				ele.value=inp2[inp3][i];
+				document.getElementById('id2').appendChild(ele);
+			}
+		}
+	</script>
+</head>
+<body>
+	<form>
+		<select id='id1' onchange='func()' required>
+			<option value="">Select One</option>
+		</select><br>
+		<select id='id2'></select>
+	</form>
+	<script>
+		var inp1=['a','b','c'];
+		var inp2={'a':[1,2],'b':[3,4],'c':[5,6]}
+		for(var i=0;i<inp1.length;i++){
+			var ele=document.createElement('option');
+			ele.innerHTML=inp1[i];
+			ele.value=inp1[i];
+			document.getElementById('id1').appendChild(ele);
+		}
+	</script>
+</body>
+</html>
