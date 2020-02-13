@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body{
+			background-color: lightgrey;
+		}
+		.container{
+		  margin:auto;
+		  margin-top:10%;
+		  width:350px;
+		  height:400px;
+		  border:3px solid green;
+		  background-color:black;
+		  display:grid;
+		  grid-template-columns:auto auto auto auto;
+		}
+		.disp{
+		  text-align:right;
+		  color:white;
+		  grid-column:1/5;
+		  display:inline-block;
+		}
+		.disp p{
+			display:inline-block;
+			font-size: 18px;
+		}
+		#disp2{
+		  color:orange;
+		}
+		.container button{
+		  background-color:lightblue;
+		}
+		#clear{
+		  grid-column:1/3;
+		  background-color: pink;
+		}
+		#equals{
+		  grid-column:4/5;
+		  grid-row:5/7;
+		  background-color: skyblue;
+		}
+		#zero{
+		  grid-column:1/3;
+		}
+	</style>
+</head>
+<body>
+	<div class='container'>
+	  	<div class='disp'>
+		    <p id='disp2' ></p>
+		    <br>
+		    <p id='display' ></p>
+		</div>
+		<button id='clear' onclick=func(innerHTML)>AC</button>
+		<button id='divide' onclick='func(innerHTML)'>/</button>
+		<button id='multiply' onclick='func(innerHTML)'>*</button>
+		<button id='seven' onclick='func(innerHTML)'>7</button>
+		<button id='eight' onclick='func(innerHTML)'>8</button>
+		<button id='nine' onclick='func(innerHTML)'>9</button>
+		<button id='subtract' onclick=func(innerHTML)>-</button>
+		<button id='four' onclick='func(innerHTML)'>4</button>
+		<button id='five' onclick='func(innerHTML)'>5</button>
+		<button id='six' onclick='func(innerHTML)'>6</button>
+		<button id='add' onclick=func(innerHTML)>+</button>
+		<button id='one' class='col' onclick=func(innerHTML)>1</button>
+		<button id='two' class='col' onclick=func(innerHTML)>2</button>
+		<button id='three' onclick='func(innerHTML)'>3</button> 
+		<button id='equals' onclick=func(innerHTML)>=</button>
+		<button id='zero' class='col' onclick=func(innerHTML)>0</button>
+		<button id='decimal' onclick=func(innerHTML)>.</button>
+	</div>
+
+
+	<script type="text/javascript">
+		var exp='';
+		var res='';
+		var num='0';
+		var f=false;
+		var st=true;
+		var ele2=document.getElementById('display');
+		var ele1=document.getElementById('disp2');
+		ele1.innerHTML=exp;
+		ele2.innerHTML=num;
+		function func(val){
+		  if(st==true)
+		    num='';
+		  st=false;
+		  if(f){
+		    if(val=='+'||val=='-'||val=='*'||val=='/'){
+		      exp=exp.split('=')[1];
+		    }
+		    else{
+		      exp='';
+		    }
+		  }
+		  if(val=='.'){
+		    if(num.indexOf('.')!=-1);
+		    else if(num<'0' || num>'9'){
+		      num='0.';
+		      exp+='0.';  
+		    }
+		    else{
+		      num+=val;
+		      exp+=val;
+		    }
+		    f=false;
+		  }
+		  else if(val=='0'){
+		    var fl=false;
+		    if(num.indexOf('.')!=-1)
+		      fl=true;
+		    else if(Number(num)!=0)
+		      fl=true;
+		    if(fl){
+		      if(f)
+		        num='0';
+		      var x=exp[exp.length-1];
+		      if((x<'0' || x>'9')&&(x!='.'))
+		        num=val;
+		      else
+		        num+=val;
+		      f=false;
+		      exp+=val;
+		    }
+		    else
+		      num='0';
+		  }
+		  else if(val>'0' && val<='9'){
+		    if(f)
+		      num='';
+		    var x=exp[exp.length-1];
+		    if((x<'0' || x>'9')&&(x!='.'))
+		      num=val;
+		    else
+		      num+=val;
+		    f=false;
+		    exp+=val;
+		  }
+		  else if(val=='AC'){
+		    exp='';
+		    res='';
+		    num='0';
+		    st=true;
+		  }
+		  else if(val=='='){
+		    var x=exp[exp.length-1];
+		    if((x<'0' || x>'9') ||x=='.')
+		      exp=exp.substr(0,exp.length-1);
+		    res=eval(exp);
+		    res=Math.round(res*10000)/10000;
+		    num=res;
+		    exp+=val;
+		    exp+=res;
+		    f=true;
+		    
+		  }
+		  else if(val=='-'){
+		    var x=exp[exp.length-1];
+		    if(x!='-'){
+		      exp+=val;
+		      num=val;
+		    }
+		    f=false;
+		  }
+		  else {
+		    var x=exp[exp.length-1];
+		    while(x=='+' || x=='*'||x=='/'||x=='-'){
+		      exp=exp.substr(0,exp.length-1);
+		      x=exp[exp.length-1];
+		    }
+		    exp+=val;
+		    num=val;
+		    f=false;
+		  }
+		  ele1.innerHTML=exp;
+		  ele2.innerHTML=num;
+		}	
+	</script>
+</body>
+</html>
