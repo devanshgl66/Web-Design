@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <title>My first game</title>
+    </head>
+    <body>
+        <h1>Score:</h1>
+        <p id='score'></p>
+        <br><canvas width="800px" height="800px" style="border:1px solid black;background-color:lightgrey;"></canvas>
+        
+        <button onclick="clearInterval(ina)">asdf</button>
+        <script>
+            var canvas=document.getElementsByTagName('canvas')[0];
+            var ctx=canvas.getContext('2d');
+            function component(x,y,color,w,h){
+                this.x=x;
+                this.y=y;
+                ctx.fillStyle=color;
+                this.color=color;
+                this.w=w;
+                this.h=h;
+                ctx.fillRect(x,y,w,h);
+            }
+            function update(event){
+                ctx.clearRect(comp.x,comp.y,comp.w,comp.h);
+                //comp.w+=1;
+                //console.log(event.keyCode);
+                //if(comp.x<750 && event.keyCode==39)
+                //    comp.x+=10;
+                //else if(comp.x>0 &&event.keyCode==37)
+                //    comp.x-=10;                        
+                if(comp.y>0 &&event.keyCode==38)
+                    comp.y-=10;                        
+                else if(comp.y<750 &&event.keyCode==40)
+                    comp.y+=10;  
+                ctx.fillStyle=comp.color;                  
+                ctx.fillRect(comp.x,comp.y,comp.w,comp.h);
+            }
+            function addobs(){
+                var len=Math.floor(Math.random()*650);
+                var gap=Math.floor(Math.random()*90)+70;
+                var ob=new component(800,0,'green',10,len);
+                obs.push(ob);
+                var ob=new component(800,len+gap,'green',10,800-len-gap);
+                obs.push(ob);
+            }
+            function gamecheck(ob,pos,gp){
+                for(var i=50-10;i>=0;i-=10){
+                    var gp_s=gp.y,gp_e=gp.y+gp.h;
+                    var ob_us=ob[pos].y,ob_ue=ob[pos].h+ob_us;
+                    var ob_ls=ob[pos+1].y,ob_le=ob[pos+1].h+ob_ls;
+                    if(gp.x+i==ob[pos].x){
+                        if(gp_s>ob_us &&gp_s<ob_ue)
+                            return false;
+                        if(gp_e>ob_ls && gp_e<ob_le)
+                            return false;
+                    }
+                }
+                return true;
+            }
+            function gamearea(){
+                //console.log(obs[0]);
+                if(obs[0].x<0){
+                    obs.shift();
+                    score++;
+                }
+                if(obs[obs.length-1].x<=500){
+                    addobs();
+                }
+        
+                if(!gamecheck(obs,0,gamepiece)){
+                    window.removeEventListener('keydown',update);
+                    clearInterval(ina);
+                    alert('Game Over');
+                }
+                for(var i=0;i<obs.length;i++){
+                    //checking for game over
+                    
+                    var comp=obs[i];
+                    ctx.clearRect(comp.x,comp.y,comp.w,comp.h);
+                    comp.x-=10;
+                    ctx.fillStyle=comp.color;                  
+                    ctx.fillRect(comp.x,comp.y,comp.w,comp.h);    
+                }
+                
+                document.getElementById('score').innerHTML=score;
+            }
+            var gamepiece=new component(0,0,'red',50,50);
+            var comp=gamepiece;
+            obs=[];
+            var score=0;
+            addobs();
+            var ina=setInterval(gamearea,100);
+            window.addEventListener('keydown',update);
+        </script>
+    </body>
+</html>
