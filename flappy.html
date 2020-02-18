@@ -1,18 +1,14 @@
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>My first game</title>
+        <title>Flappy Bird Game</title>
     </head>
     <body>
-        <p style="text-align: center; color:blueviolet; font-weight: bolder; font-size: 50px;">Escape the bars:</p>
-        <button id='stop' onclick="stop()">Stop</button>
-        <button id='start' onclick="start()">Start</button>
-        <br><canvas id='game' width='800px' height='800px' style="float:left;border:1px solid black;background-color:lightgrey;"></canvas>
-        <h1  style="display: inline;">Score:</h1>
-        <p id='score' style="display: inline; font-size:20px">0</p>
+        <button onclick="start()">start</button>
+        <button onclick="stop()">stop</button>
+        <canvas id='game' width='800px' height='800px' style="border: 1px solid black; background-color: lightgrey;"></canvas>
         <script>
-
-
+            var canvas=document.getElementById('game');
+            var ctx=canvas.getContext('2d');
             //All constant used
             
             const g_size=800;
@@ -27,38 +23,39 @@
             var canvas=document.getElementById('game');                
             var ctx=canvas.getContext('2d');
             //gp=gamepeice
-            var gp={
-                //gamepiece:new component(gp_x,gp_y,gp_color,gp_w,gp_h),
-                //function to move my game piece
-                g:10,
-                gs:0,
-                f:function(){gp.update(event,gp.gamepiece)},
-                update:function (event,comp){
-                    ctx.clearRect(comp.x,comp.y,comp.w,comp.h);                     
-                    //keycode of down arrow:38
-                    if(comp.y>0 &&event.keyCode==38)
-                        comp.y-=gp_speed; 
-                    //keycode of up arrow:40                       
-                    else if(comp.y<g_size-gp_h &&event.keyCode==40)
-                        comp.y+=gp_speed; 
-                    //this.gs+=this.g;
-                    //comp.y-=this.gs; 
-                    ctx.fillStyle=comp.color;                  
-                    ctx.fillRect(comp.x,comp.y,comp.w,comp.h);
+            gp={
+                gamepiece:new component(10,400,'red',50,50),
+                f:function(gpa){
+                    ctx.clearRect(gpa.x,gpa.y,gpa.w,gpa.h);
+                    if(gpa.y<750)
+                        gpa.y+=1;
+                    ctx.fillStyle=gp_color;
+                    ctx.fillRect(gpa.x,gpa.y,gpa.w,gpa.h);
+                    //console.log(gp.y);
+                },
+                f2:function(gpa){
+                    ctx.clearRect(gpa.x,gpa.y,gpa.w,gpa.h);
+                    if(gpa.y>50)
+                        gpa.y-=50;
+                    else
+                        gpa.y=0;
+                    ctx.fillStyle=gp_color;
+                    ctx.fillRect(gpa.x,gpa.y,gpa.w,gpa.h);             
                 },
                 start:function(){
-                    gp.gamepiece=new component(gp_x,gp_y,gp_color,gp_w,gp_h);
-                    window.addEventListener('keydown',this.f)
+                    gp.inter=setInterval(function(){gp.f(gp.gamepiece)},10);
+                    window.onclick=function(){gp.f2(gp.gamepiece)};
                 },
                 stop:function(){
-                    window.removeEventListener('keydown',this.f);
+                    clearInterval(gp.inter);
+                    window.onclick='';
                 }
-            };  
+            };
             var obst={
                 addobs:function (){
                     var len=Math.floor(Math.random()*ob_h);
                     var c_gap=g_size-ob_h-gp_w-20;    //constant for gap
-                    var gap=Math.floor(Math.random()*c_gap)+gp_w+20;
+                    var gap=Math.floor(Math.random()*c_gap)+gp_w+50;
                     var ob=new component(g_size,0,ob_color,ob_w,len);
                     this.obs.push(ob);
                     var ob=new component(g_size,len+gap,ob_color,ob_w,g_size-len-gap);
@@ -72,7 +69,7 @@
             };
             var gm={
                 speed:70,
-                canvas:document.getElementById('game')[0],                
+                canvas:document.getElementById('game'),                
                 ctx:this.canvas.getContext('2d'),
                 score:0,
                 interval:function(){this.int=setInterval(gm.gamearea,gm.speed,gp.gamepiece,obst.obs);},
@@ -153,4 +150,3 @@
         </script>
     </body>
 </html>
-
