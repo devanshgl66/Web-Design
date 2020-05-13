@@ -1,7 +1,17 @@
+/*One time*/
+git config --global user.name USERNAME
+git config --global user.email EMAIL
+git config --list
+git remote add origin HTTP LINK OF THE REPOSITORY
+
 git init
 git status
-git add .
+git add .   //adding all the changed file into staging area
 git commit -m "versionname"
-git push -u origin master
+git push -u origin master	//add the local git repository to the origin to the master branch
+git clone HTTP LINK OF THE REPOSITORY .gitFILE
 git log
+git log --oneline
 git checkout HEAD~10 /*10 step behind*/ filename
+git reset HEAD filename 	//unstaged the file
+git checkout --filename

@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Form correct date</title>
+    </head>
+    <body>
+        <form onSubmit='return ValidateForm()'>
+            <input type='date' id='date'/>
+            <p id='error'></p>
+            <input type='submit'/>
+        </form>
+        <script>
+            function ValidateForm(){
+                var date=document.getElementById('date').value;
+                date=new Date(date);
+                console.log(date);
+                var currDate=new Date();
+                if(date-currDate<0){
+                    document.getElementById('error').innerHTML='Please choose valid date.';
+                    return false;
+                }
+                return true;
+            }
+        </script>
+    </body>
+</html>
