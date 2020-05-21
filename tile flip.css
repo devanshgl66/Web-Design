@@ -1,3 +1,6 @@
+body{
+    background-color: grey;
+}
 #heading{
     text-align:center;
     font-size: 50px;
@@ -6,6 +9,7 @@
     margin:auto;
     border:1px solid green;
     width: 70%;
+    background-color: white;
 }
 #score{
     font-size: 30px;
